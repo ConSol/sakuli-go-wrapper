@@ -25,27 +25,31 @@ go build github.com/ConSol/sakuli-go-wrapper
 ```
 Generic Sakuli test starter.
 2016 - The Sakuli team / Philip Griesbacher.
-Usage of sakuli:
+http://www.sakuli.org
+https://github.com/ConSol/sakuli
+
+Usage of C:\Users\GRIESB~1\AppData\Local\Temp\go-build572306110\command-line-arguments\_obj\exe\main.exe:
   -D value
-        JVM option to set a property on runtime, overrides the 'sakuli.properties' (default [])
+    	JVM option to set a property on runtime, overrides the 'sakuli.properties'
   -browser string
-        (optional) browser for the test execution (default: Firefox)
+    	(optional) browser for the test execution (default: Firefox)
   -encrypt string
-        encrypt a secret
+    	encrypt a secret
   -interface string
-        (optional) network interface used for encryption
+    	(optional) network interface used for encryption
   -javahome string
-        Java bin dir (overrides PATH)
+    	Java bin dir (overrides PATH)
   -loop int
-        loop this suite, wait n seconds between executions, 0 means no loops (default: 0)
+    	loop this suite, wait n seconds between executions, 0 means no loops (default: 0)
   -postHook value
-        A programm which will be executed after sakuli (Can be added multiple times) (default [])
+    	A programm which will be executed after sakuli (Can be added multiple times)
   -preHook value
-        A programm which will be executed before sakuli (Can be added multiple times) (default [])
+    	A programm which will be executed before sakuli (Can be added multiple times)
   -run string
-        run a sakuli test suite
+    	run a sakuli test suite
   -sahi_home string
-        (optional) Sahi installation folder
+    	(optional) Sahi installation folder
   -sakuli_home string
-        (optional) SAKULI_HOME folder, default: environment variable 'SAKULI_HOME' (default "C:\\XXXX")
+    	(optional) SAKULI_HOME folder, default: environment variable 'SAKULI_HOME' (default "C:\\XXX")
+
 ```

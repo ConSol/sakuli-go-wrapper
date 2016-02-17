@@ -21,11 +21,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--<parent>-->
-    <!--<artifactId>root</artifactId>-->
-    <!--<version>0.9.3-SNAPSHOT</version>-->
-    <!--</parent>-->
-
     <groupId>org.sakuli</groupId>
     <artifactId>sakuli-go-wrapper</artifactId>
     <version>0.9.3-SNAPSHOT</version>
@@ -95,6 +90,24 @@
                     </systemProperties>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <releaseProfiles>upload-release</releaseProfiles>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <configuration>
+                    <!-- name for release branch -->
+                    <branch>REL_${project.version}</branch>
+                </configuration>
+            </plugin>
         </plugins>
 
 
@@ -107,26 +120,84 @@
                     <version>2.5.1</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>1.9</version>
+                </plugin>
+                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>1.4.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
+        <!--<extensions>-->
+        <!--<extension>-->
+        <!--<groupId>org.apache.maven.wagon</groupId>-->
+        <!--<artifactId>wagon-ssh-external</artifactId>-->
+        <!--<version>2.3</version>-->
+        <!--</extension>-->
+        <!--</extensions>-->
     </build>
 
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/ConSol/sakuli/issues/</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
     <distributionManagement>
+        <!-- local maven repository for normal builds -->
         <repository>
-            <id>labs-consol-sakuli-repository</id>
-            <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/repository</url>
+            <id>local-release</id>
+            <url>file:///${user.home}/.m2/repository</url>
         </repository>
         <snapshotRepository>
-            <id>labs-consol-sakuli-repository</id>
-            <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/snapshots-repository</url>
+            <id>local-snapshots</id>
+            <url>file:///${user.home}/.m2/repository</url>
         </snapshotRepository>
     </distributionManagement>
 
+
+    <profiles>
+        <!-- profile for uploading the artifacts and zipped files to labs.consol.de/sakuli-->
+        <profile>
+            <id>upload-release</id>
+            <!-- profile settings to upload the artifacts to the consol labs server -->
+            <distributionManagement>
+                <repository>
+                    <id>labs-consol-sakuli-repository</id>
+                    <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/repository</url>
+                </repository>
+                <snapshotRepository>
+                    <id>labs-consol-sakuli-repository</id>
+                    <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/snapshots-repository</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
     <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
         <!-- ConSol Labs repository holds Sahi and SikuliX dependencies -->
         <repository>
             <id>labs-consol</id>

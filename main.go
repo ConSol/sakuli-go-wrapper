@@ -24,15 +24,18 @@ func main() {
 	var sakuliHome string
 
 	if os.Getenv("SAKULI_HOME") == "" {
-		panic("SAKULI_HOME environment variable is not set")
+		fmt.Fprintln(os.Stderr, "SAKULI_HOME environment variable is not set")
 	}
 
 	sakuliJars := filepath.Join(os.Getenv("SAKULI_HOME"), "libs", "java")
 	originalUsage := flag.Usage
 	flag.Usage = func() {
-		fmt.Println(`Generic Sakuli test starter.
-2016 - The Sakuli team / Philip Griesbacher.
-`)
+		fmt.Fprintf(os.Stderr, `Generic Sakuli test starter.
+%d - The Sakuli team / Philip Griesbacher.
+http://www.sakuli.org
+https://github.com/ConSol/sakuli
+
+`, time.Now().Year())
 		originalUsage()
 	}
 	flag.IntVar(&loop, "loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")

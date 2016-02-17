@@ -2,6 +2,7 @@ package input
 
 import (
 	"fmt"
+	"strings"
 )
 
 //StringSlice is used for multiple string args
@@ -9,7 +10,7 @@ type StringSlice []string
 
 //String is for the flag.Var function
 func (s *StringSlice) String() string {
-	return fmt.Sprintf("%s", *s)
+	return strings.Trim(fmt.Sprintf("%s", *s), "[]")
 }
 
 //Set is for the flag.Var function

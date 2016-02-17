@@ -80,7 +80,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <executable>go</executable>
+                    <executable>${GOROOT}/bin/go</executable>
                     <workingDirectory>${project.basedir}</workingDirectory>
                     <systemProperties>
                         <systemProperty>

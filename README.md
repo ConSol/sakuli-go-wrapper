@@ -28,7 +28,7 @@ Generic Sakuli test starter.
 http://www.sakuli.org
 https://github.com/ConSol/sakuli
 
-Usage of C:\Users\GRIESB~1\AppData\Local\Temp\go-build572306110\command-line-arguments\_obj\exe\main.exe:
+Usage of sakuli-go-wrapper:
   -D value
     	JVM option to set a property on runtime, overrides the 'sakuli.properties'
   -browser string

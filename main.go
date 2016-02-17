@@ -35,18 +35,18 @@ func main() {
 `)
 		originalUsage()
 	}
-	flag.IntVar(&loop, "-loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")
-	flag.StringVar(&javaHome, "-javahome", "", "Java bin dir (overrides PATH)")
-	flag.Var(&preHooks, "-preHook", "A programm which will be executed before sakuli (Can be added multiple times)")
-	flag.Var(&postHooks, "-postHook", "A programm which will be executed after sakuli (Can be added multiple times)")
+	flag.IntVar(&loop, "loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")
+	flag.StringVar(&javaHome, "javahome", "", "Java bin dir (overrides PATH)")
+	flag.Var(&preHooks, "preHook", "A programm which will be executed before sakuli (Can be added multiple times)")
+	flag.Var(&postHooks, "postHook", "A programm which will be executed after sakuli (Can be added multiple times)")
 
 	flag.Var(&javaProperties, "D", "JVM option to set a property on runtime, overrides the 'sakuli.properties'")
-	flag.StringVar(&browser, "-browser", "", "(optional) browser for the test execution (default: Firefox)")
-	flag.StringVar(&encrypt, "-encrypt", "", "encrypt a secret")
-	flag.StringVar(&inter, "-interface", "", "(optional) network interface used for encryption")
-	flag.StringVar(&run, "-run", "", "run a sakuli test suite")
-	flag.StringVar(&sahiHome, "-sahi_home", "", "(optional) Sahi installation folder")
-	flag.StringVar(&sakuliHome, "-sakuli_home", os.Getenv("SAKULI_HOME"), "(optional) SAKULI_HOME folder, default: environment variable 'SAKULI_HOME'")
+	flag.StringVar(&browser, "browser", "", "(optional) browser for the test execution (default: Firefox)")
+	flag.StringVar(&encrypt, "encrypt", "", "encrypt a secret")
+	flag.StringVar(&inter, "interface", "", "(optional) network interface used for encryption")
+	flag.StringVar(&run, "run", "", "run a sakuli test suite")
+	flag.StringVar(&sahiHome, "sahi_home", "", "(optional) Sahi installation folder")
+	flag.StringVar(&sakuliHome, "sakuli_home", os.Getenv("SAKULI_HOME"), "(optional) SAKULI_HOME folder, default: environment variable 'SAKULI_HOME'")
 	flag.Parse()
 
 	input.TestRun(run)
@@ -72,11 +72,13 @@ func main() {
 	}
 	joinedSakuliProperties := genSakuliPropertiesList(sakuliProperties)
 
-	fmt.Println("=========== Starting Pre-Hooks ===========")
-	for _, pre := range preHooks {
-		execute.RunHandler(pre)
+	if len(preHooks) > 0 {
+		fmt.Println("=========== Starting Pre-Hooks ===========")
+		for _, pre := range preHooks {
+			execute.RunHandler(pre)
+		}
+		fmt.Println("=========== Finished Pre-Hooks ===========")
 	}
-	fmt.Println("=========== Finished Pre-Hooks ===========")
 
 	sakuliReturnCode := execute.RunSakuli(javaExecutable, sakuliJars, javaProperties, joinedSakuliProperties)
 	for loop > 0 {
@@ -85,12 +87,13 @@ func main() {
 		execute.RunSakuli(javaExecutable, sakuliJars, javaProperties, joinedSakuliProperties)
 	}
 
-	fmt.Println("=========== Starting Post-Hooks ===========")
-	for _, post := range postHooks {
-		execute.RunHandler(post)
+	if len(postHooks) > 0 {
+		fmt.Println("=========== Starting Post-Hooks ===========")
+		for _, post := range postHooks {
+			execute.RunHandler(post)
+		}
+		fmt.Println("=========== Finished Post-Hooks ===========")
 	}
-	fmt.Println("=========== Finished Post-Hooks ===========")
-
 	os.Exit(sakuliReturnCode)
 }
 

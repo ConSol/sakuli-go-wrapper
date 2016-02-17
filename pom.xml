@@ -100,14 +100,14 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-scm-plugin</artifactId>
-                <configuration>
-                    <!-- name for release branch -->
-                    <branch>REL_${project.version}</branch>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-scm-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--&lt;!&ndash; name for release branch &ndash;&gt;-->
+                    <!--<branch>REL_${project.version}</branch>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
 
 
@@ -131,13 +131,13 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <!--<extensions>-->
-        <!--<extension>-->
-        <!--<groupId>org.apache.maven.wagon</groupId>-->
-        <!--<artifactId>wagon-ssh-external</artifactId>-->
-        <!--<version>2.3</version>-->
-        <!--</extension>-->
-        <!--</extensions>-->
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>2.3</version>
+            </extension>
+        </extensions>
     </build>
 
     <issueManagement>

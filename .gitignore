@@ -22,3 +22,8 @@ _testmain.go
 *.exe
 *.test
 *.prof
+.idea
+*.iml
+*.log
+target
+sakuli-go-wrapper

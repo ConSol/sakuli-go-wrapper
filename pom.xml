@@ -114,6 +114,18 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>labs-consol-sakuli-repository</id>
+            <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/repository</url>
+        </repository>
+        <snapshotRepository>
+            <id>labs-consol-sakuli-repository</id>
+            <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/snapshots-repository</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <repositories>
         <!-- ConSol Labs repository holds Sahi and SikuliX dependencies -->
         <repository>

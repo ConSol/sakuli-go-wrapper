@@ -20,6 +20,15 @@ set GOARCH=386
 go build github.com/ConSol/sakuli-go-wrapper
 ```
 
+- Build windows and linux binary
+``bash
+make
+```
+or 
+```
+mvn install
+```
+
 ### Usage
 
 ```

@@ -24,6 +24,7 @@ func main() {
 
 	sakuliJars := filepath.Join(helper.GetSahiHome(), "libs", "java")
 	myFlagSet := flag.NewFlagSet("", flag.ExitOnError)
+	input.MyFlagSet = myFlagSet
 	myFlagSet.Usage = func() {
 		fmt.Fprintf(os.Stderr, `Generic Sakuli test starter.
 %d - The Sakuli team / Philip Griesbacher.
@@ -71,12 +72,20 @@ Options:
 	myFlagSet.StringVar(&inter, "interface", "", "network interface used for encryption")
 	myFlagSet.StringVar(&sahiHome, "sahi_home", "", "Sahi installation folder")
 	myFlagSet.BoolVar(&version, "version", false, "version info")
-	myFlagSet.Parse(os.Args[3:])
-	if version {
-		input.PrintVersion()
+
+	if len(os.Args) > 3 {
+		myFlagSet.Parse(os.Args[3:])
+	} else {
+		myFlagSet.Parse(os.Args[1:])
+		fmt.Println(version)
+		if version {
+			input.PrintVersion()
+		}
+		input.ExitWithHelp("")
 	}
+
 	sakuliProperties := map[string]string{"sakuli_home": helper.GetSahiHome()}
-	typ, argument := input.ParseArgs(os.Args[1:3])
+	typ, argument := input.ParseArgs(append(os.Args[1:3],myFlagSet.Args()...))
 	switch typ {
 	case input.RunMode:
 		input.TestRun(argument)

@@ -26,7 +26,7 @@ func ParseArgs(args []string) (string, string) {
 	containsRun, indexRun := helper.Contains(args, RunMode)
 
 	if !containsEncrypt && !containsRun {
-		ExitWithHelp("\nrun and encrypt are missing")
+		ExitWithHelp("\nrun or encrypt are missing")
 	}
 	if containsEncrypt && containsRun {
 		ExitWithHelp("\nrun and encrypt are given, only one is needed")
@@ -40,9 +40,12 @@ func ParseArgs(args []string) (string, string) {
 	return Error, Error
 }
 
+//MyFlagSet contains the parsed arguemnts, will be set at the beginning.
+var MyFlagSet *flag.FlagSet
+
 //ExitWithHelp prints the help, the info and exits the program with 999.
 func ExitWithHelp(info string) {
-	flag.Usage()
+	MyFlagSet.Usage()
 	fmt.Fprintln(os.Stderr, info)
 	os.Exit(999)
 }

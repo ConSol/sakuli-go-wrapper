@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/ConSol/sakuli-go-wrapper/execute"
+	"github.com/ConSol/sakuli-go-wrapper/helper"
 	"github.com/ConSol/sakuli-go-wrapper/input"
 	"os"
 	"path/filepath"
@@ -21,7 +22,6 @@ func main() {
 	var inter string
 	var run string
 	var sahiHome string
-	var sakuliHome string
 	var version bool
 
 	sakuliJars := filepath.Join(os.Getenv("SAKULI_HOME"), "libs", "java")
@@ -31,9 +31,35 @@ func main() {
 http://www.sakuli.org
 https://github.com/ConSol/sakuli
 
-`, time.Now().Year())
+Usage:   sakuli[.exe] COMMAND [OPTIONS]
+         sakuli -help
+         sakuli -version
+         sakuli -run <sakuli suite> [OPTIONS]
+         sakuli -encrypt <secret> [OPTIONS]
 
+Commands:
+         run
+         encrypt
+
+Options:
+         -loop <minutes>           Loop this suite, wait n seconds between
+                                   executions, 0 means no loops (default: 0)
+         -javaHome <folder>        Java bin dir (overrides PATH)
+         -preHooks <programpath>   A programm which will be executed before
+                                   sakuli (Can be added multiple times)
+         -postHooks  <programpath> A programm which will be executed after
+                                   sakuli (Can be added multiple times)
+         -D <JVM option>           JVM option to set a property on runtime,
+                                   overrides the 'sakuli.properties'
+         -browser <browser>        Browser for the test execution (default: Firefox)
+         -interface <interface>    Network interface used for encryption
+         -sahiHome <folder>        Sahi installation folder
+         -version                  Version info
+
+
+`, time.Now().Year())
 	}
+
 	flag.IntVar(&loop, "loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")
 	flag.StringVar(&javaHome, "javahome", "", "Java bin dir (overrides PATH)")
 	flag.Var(&preHooks, "preHook", "A programm which will be executed before sakuli (Can be added multiple times)")
@@ -46,7 +72,6 @@ https://github.com/ConSol/sakuli
 	flag.StringVar(&browser, "browser", "", "browser for the test execution (default: Firefox)")
 	flag.StringVar(&inter, "interface", "", "network interface used for encryption")
 	flag.StringVar(&sahiHome, "sahi_home", "", "Sahi installation folder")
-	flag.StringVar(&sakuliHome, "sakuli_home", "", "Sakuli installation folder")
 	flag.BoolVar(&version, "version", false, "version info")
 	flag.Parse()
 
@@ -57,7 +82,7 @@ https://github.com/ConSol/sakuli
 
 	javaExecutable := input.TestJavaHome(javaHome)
 	javaProperties = javaProperties.AddPrefix("-D")
-	sakuliProperties := map[string]string{"sakuli_home": sakuliHome}
+	sakuliProperties := map[string]string{"sakuli_home": helper.GetSahiHome()}
 
 	if browser != "" {
 		sakuliProperties["browser"] = browser

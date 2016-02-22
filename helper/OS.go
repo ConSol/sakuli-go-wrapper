@@ -1,7 +1,9 @@
 package helper
 
 import (
+	"fmt"
 	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 )
@@ -31,4 +33,24 @@ func GenClassPath(elements ...string) string {
 func DoesFileExist(file string) bool {
 	_, err := os.Stat(file)
 	return err == nil
+}
+
+var sakuliHome = ""
+
+//GetSahiHome returns the sakulihome folder.
+//First lookup: env: SAKULI_HOME
+//Second: one folder above the binary
+func GetSahiHome() string {
+	if sakuliHome == "" {
+		sakuliHome = os.Getenv("SAKULI_HOME")
+		if sakuliHome == "" {
+			var err error
+			sakuliHome, err = filepath.Abs(filepath.Join(filepath.Dir(os.Args[0]), ".."))
+			if err != nil {
+				panic(err)
+			}
+			fmt.Fprintln(os.Stderr, "=========== SAKULI_HOME is empty using binary folder ===========")
+		}
+	}
+	return sakuliHome
 }

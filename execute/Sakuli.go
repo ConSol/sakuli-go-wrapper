@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/ConSol/sakuli-go-wrapper/helper"
 	"github.com/ConSol/sakuli-go-wrapper/input"
+	"os"
 	"path/filepath"
 	"strings"
-	"os"
 )
 
 //RunSakuli starts the sakuli jar with javaProperties and sakuliProperties
@@ -15,7 +15,7 @@ func RunSakuli(javaExecutable, sakuliJars string, javaProperties, sakuliProperti
 	args := []string{}
 	args = append(args, javaProperties...)
 	//TODO:if -sakuli home is set use this value
-	args = append(args, "-Duser.dir=" + os.Getenv("SAKULI_HOME"))
+	args = append(args, "-Duser.dir="+os.Getenv("SAKULI_HOME"))
 	args = append(args, "-classpath")
 	args = append(args, classpath)
 	args = append(args, "org.sakuli.starter.SakuliStarter")

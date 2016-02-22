@@ -22,13 +22,9 @@ func main() {
 	var run string
 	var sahiHome string
 	var sakuliHome string
-
-	if os.Getenv("SAKULI_HOME") == "" {
-		fmt.Fprintln(os.Stderr, "SAKULI_HOME environment variable is not set")
-	}
+	var version bool
 
 	sakuliJars := filepath.Join(os.Getenv("SAKULI_HOME"), "libs", "java")
-	originalUsage := flag.Usage
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, `Generic Sakuli test starter.
 %d - The Sakuli team / Philip Griesbacher.
@@ -36,23 +32,28 @@ http://www.sakuli.org
 https://github.com/ConSol/sakuli
 
 `, time.Now().Year())
-		originalUsage()
+
 	}
 	flag.IntVar(&loop, "loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")
 	flag.StringVar(&javaHome, "javahome", "", "Java bin dir (overrides PATH)")
 	flag.Var(&preHooks, "preHook", "A programm which will be executed before sakuli (Can be added multiple times)")
 	flag.Var(&postHooks, "postHook", "A programm which will be executed after sakuli (Can be added multiple times)")
 
-	flag.Var(&javaProperties, "D", "JVM option to set a property on runtime, overrides the 'sakuli.properties'")
-	flag.StringVar(&browser, "browser", "", "(optional) browser for the test execution (default: Firefox)")
 	flag.StringVar(&encrypt, "encrypt", "", "encrypt a secret")
-	flag.StringVar(&inter, "interface", "", "(optional) network interface used for encryption")
 	flag.StringVar(&run, "run", "", "run a sakuli test suite")
-	flag.StringVar(&sahiHome, "sahi_home", "", "(optional) Sahi installation folder")
-	flag.StringVar(&sakuliHome, "sakuli_home", os.Getenv("SAKULI_HOME"), "(optional) SAKULI_HOME folder, default: environment variable 'SAKULI_HOME'")
+
+	flag.Var(&javaProperties, "D", "JVM option to set a property on runtime, overrides the 'sakuli.properties'")
+	flag.StringVar(&browser, "browser", "", "browser for the test execution (default: Firefox)")
+	flag.StringVar(&inter, "interface", "", "network interface used for encryption")
+	flag.StringVar(&sahiHome, "sahi_home", "", "Sahi installation folder")
+	flag.StringVar(&sakuliHome, "sakuli_home", "", "Sakuli installation folder")
+	flag.BoolVar(&version, "version", false, "version info")
 	flag.Parse()
 
-	input.TestRun(run)
+	if version {
+		input.PrintVersion()
+	}
+	//input.TestRun(run)
 
 	javaExecutable := input.TestJavaHome(javaHome)
 	javaProperties = javaProperties.AddPrefix("-D")

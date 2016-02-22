@@ -73,11 +73,10 @@ Options:
 	myFlagSet.StringVar(&sahiHome, "sahi_home", "", "Sahi installation folder")
 	myFlagSet.BoolVar(&version, "version", false, "version info")
 
-	if len(os.Args) > 3 {
+	if len(os.Args) > 2 {
 		myFlagSet.Parse(os.Args[3:])
 	} else {
 		myFlagSet.Parse(os.Args[1:])
-		fmt.Println(version)
 		if version {
 			input.PrintVersion()
 		}

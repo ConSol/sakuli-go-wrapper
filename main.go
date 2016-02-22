@@ -22,7 +22,7 @@ func main() {
 	var sahiHome string
 	var version bool
 
-	sakuliJars := filepath.Join(os.Getenv("SAKULI_HOME"), "libs", "java")
+	sakuliJars := filepath.Join(helper.GetSahiHome(), "libs", "java")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, `Generic Sakuli test starter.
 %d - The Sakuli team / Philip Griesbacher.

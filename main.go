@@ -23,7 +23,8 @@ func main() {
 	var version bool
 
 	sakuliJars := filepath.Join(helper.GetSahiHome(), "libs", "java")
-	flag.Usage = func() {
+	myFlagSet := flag.NewFlagSet("", flag.ExitOnError)
+	myFlagSet.Usage = func() {
 		fmt.Fprintf(os.Stderr, `Generic Sakuli test starter.
 %d - The Sakuli team / Philip Griesbacher.
 http://www.sakuli.org
@@ -40,42 +41,42 @@ Commands:
          encrypt <secret>
 
 Options:
-         -loop <minutes>           Loop this suite, wait n seconds between
+         -loop=<minutes>           Loop this suite, wait n seconds between
                                    executions, 0 means no loops (default: 0)
-         -javaHome <folder>        Java bin dir (overrides PATH)
-         -preHooks <programpath>   A programm which will be executed before
+         -javaHome=<folder>        Java bin dir (overrides PATH)
+         -preHook=<programpath>    A programm which will be executed before
                                    sakuli (Can be added multiple times)
-         -postHooks  <programpath> A programm which will be executed after
+         -postHook=<programpath>   A programm which will be executed after
                                    sakuli (Can be added multiple times)
-         -D <JVM option>           JVM option to set a property on runtime,
+         -D=<JVM option>           JVM option to set a property on runtime,
                                    overrides the 'sakuli.properties'
-         -browser <browser>        Browser for the test execution
+         -browser=<browser>        Browser for the test execution
                                    (default: Firefox)
-         -interface <interface>    Network interface used for encryption
-         -sahiHome <folder>        Sahi installation folder
+         -interface=<interface>    Network interface used for encryption
+         -sahiHome=<folder>        Sahi installation folder
          -version                  Version info
+         -help                     This help text
 
 
 `, time.Now().Year())
 	}
 
-	flag.IntVar(&loop, "loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")
-	flag.StringVar(&javaHome, "javahome", "", "Java bin dir (overrides PATH)")
-	flag.Var(&preHooks, "preHook", "A programm which will be executed before sakuli (Can be added multiple times)")
-	flag.Var(&postHooks, "postHook", "A programm which will be executed after sakuli (Can be added multiple times)")
+	myFlagSet.IntVar(&loop, "loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")
+	myFlagSet.StringVar(&javaHome, "javahome", "", "Java bin dir (overrides PATH)")
+	myFlagSet.Var(&preHooks, "preHook", "A programm which will be executed before sakuli (Can be added multiple times)")
+	myFlagSet.Var(&postHooks, "postHook", "A programm which will be executed after sakuli (Can be added multiple times)")
 
-	flag.Var(&javaProperties, "D", "JVM option to set a property on runtime, overrides the 'sakuli.properties'")
-	flag.StringVar(&browser, "browser", "", "browser for the test execution (default: Firefox)")
-	flag.StringVar(&inter, "interface", "", "network interface used for encryption")
-	flag.StringVar(&sahiHome, "sahi_home", "", "Sahi installation folder")
-	flag.BoolVar(&version, "version", false, "version info")
-	flag.Parse()
-
+	myFlagSet.Var(&javaProperties, "D", "JVM option to set a property on runtime, overrides the 'sakuli.properties'")
+	myFlagSet.StringVar(&browser, "browser", "", "browser for the test execution (default: Firefox)")
+	myFlagSet.StringVar(&inter, "interface", "", "network interface used for encryption")
+	myFlagSet.StringVar(&sahiHome, "sahi_home", "", "Sahi installation folder")
+	myFlagSet.BoolVar(&version, "version", false, "version info")
+	myFlagSet.Parse(os.Args[3:])
 	if version {
 		input.PrintVersion()
 	}
 	sakuliProperties := map[string]string{"sakuli_home": helper.GetSahiHome()}
-	typ, argument := input.ParseArgs(flag.Args())
+	typ, argument := input.ParseArgs(os.Args[1:3])
 	switch typ {
 	case input.RunMode:
 		input.TestRun(argument)

@@ -1,7 +1,6 @@
 package input
 
 import (
-	"flag"
 	"fmt"
 	"github.com/ConSol/sakuli-go-wrapper/helper"
 	"io/ioutil"
@@ -12,12 +11,9 @@ import (
 //TestRun makes validation tests on the run parameter
 func TestRun(suite string) {
 	if suite == "" {
-		flag.Usage()
-		fmt.Fprintln(os.Stderr, "\nrun param is empty")
-		os.Exit(999)
+		ExitWithHelp("\nrun param is empty")
 	} else if !helper.DoesFileExist(suite) {
-		fmt.Fprintf(os.Stderr, "run parameter folder [%s] does not exitst\n", suite)
-		os.Exit(999)
+		ExitWithHelp(fmt.Sprintf("\nrun parameter folder [%s] does not exitst\n", suite))
 	}
 }
 

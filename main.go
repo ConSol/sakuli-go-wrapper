@@ -18,9 +18,7 @@ func main() {
 	var preHooks input.StringSlice
 	var postHooks input.StringSlice
 	var browser string
-	var encrypt string
 	var inter string
-	var run string
 	var sahiHome string
 	var version bool
 
@@ -31,15 +29,15 @@ func main() {
 http://www.sakuli.org
 https://github.com/ConSol/sakuli
 
-Usage:   sakuli[.exe] COMMAND [OPTIONS]
+Usage:   sakuli[.exe] COMMAND ARGUMENT [OPTIONS]
          sakuli -help
          sakuli -version
          sakuli -run <sakuli suite> [OPTIONS]
          sakuli -encrypt <secret> [OPTIONS]
 
 Commands:
-         run
-         encrypt
+         run <sakuli suite>
+         encrypt <secret>
 
 Options:
          -loop <minutes>           Loop this suite, wait n seconds between
@@ -51,7 +49,8 @@ Options:
                                    sakuli (Can be added multiple times)
          -D <JVM option>           JVM option to set a property on runtime,
                                    overrides the 'sakuli.properties'
-         -browser <browser>        Browser for the test execution (default: Firefox)
+         -browser <browser>        Browser for the test execution
+                                   (default: Firefox)
          -interface <interface>    Network interface used for encryption
          -sahiHome <folder>        Sahi installation folder
          -version                  Version info
@@ -65,9 +64,6 @@ Options:
 	flag.Var(&preHooks, "preHook", "A programm which will be executed before sakuli (Can be added multiple times)")
 	flag.Var(&postHooks, "postHook", "A programm which will be executed after sakuli (Can be added multiple times)")
 
-	flag.StringVar(&encrypt, "encrypt", "", "encrypt a secret")
-	flag.StringVar(&run, "run", "", "run a sakuli test suite")
-
 	flag.Var(&javaProperties, "D", "JVM option to set a property on runtime, overrides the 'sakuli.properties'")
 	flag.StringVar(&browser, "browser", "", "browser for the test execution (default: Firefox)")
 	flag.StringVar(&inter, "interface", "", "network interface used for encryption")
@@ -78,23 +74,26 @@ Options:
 	if version {
 		input.PrintVersion()
 	}
-	//input.TestRun(run)
+	sakuliProperties := map[string]string{"sakuli_home": helper.GetSahiHome()}
+	typ, argument := input.ParseArgs(flag.Args())
+	switch typ {
+	case input.RunMode:
+		input.TestRun(argument)
+		sakuliProperties[input.RunMode] = argument
+	case input.EncryptMode:
+		sakuliProperties[input.EncryptMode] = argument
+	case input.Error:
+		panic("can't pars args")
+	}
 
 	javaExecutable := input.TestJavaHome(javaHome)
 	javaProperties = javaProperties.AddPrefix("-D")
-	sakuliProperties := map[string]string{"sakuli_home": helper.GetSahiHome()}
 
 	if browser != "" {
 		sakuliProperties["browser"] = browser
 	}
 	if inter != "" {
 		sakuliProperties["interface"] = inter
-	}
-	if encrypt != "" {
-		sakuliProperties["encrypt"] = encrypt
-	}
-	if run != "" {
-		sakuliProperties["run"] = run
 	}
 	if sahiHome != "" {
 		sakuliProperties["sahiHome"] = sahiHome

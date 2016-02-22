@@ -42,7 +42,7 @@ Commands:
          encrypt <secret>
 
 Options:
-         -loop=<minutes>           Loop this suite, wait n seconds between
+         -loop=<seconds>           Loop this suite, wait n seconds between
                                    executions, 0 means no loops (default: 0)
          -javaHome=<folder>        Java bin dir (overrides PATH)
          -preHook=<programpath>    A program which will be executed before a

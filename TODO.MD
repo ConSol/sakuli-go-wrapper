@@ -28,29 +28,32 @@
 * -help
 ->
  ```
- D:\go\src\github.com\ConSol\sakuli-go-wrapper>go run main.go -help
-Generic Sakuli test starter.
-2016 - The Sakuli team / Philip Griesbacher.
-http://www.sakuli.org
-https://github.com/ConSol/sakuli
-Usage:   sakuli[.exe} COMMAND [OPTIONS]
-         sakuli -help
-         sakuli -run <sakuli suite> [OPTIONS]
-         sakuli -encrypt <secret> [OPTIONS]
-         ...
-Commands:
-         run
-         encrypt
-Options:
-         -loop <minutes>           Loop this suite, wait n seconds between executions, 0 means no loops (default: 0)
-         -javaHome <folder>        Java bin dir (overrides PATH)
-         -preHooks <programpath>   A programm which will be executed before sakuli (Can be added multiple times)
-         -postHooks  <programpath> A programm which will be executed after sakuli (Can be added multiple times)
-         -D <JVM options>          JVM option to set a property on runtime, overrides the 'sakuli.properties'
-         -browser <browser>        Browser for the test execution (default: Firefox)
-         -interface <interface>    Network interface used for encryption
-         -sahiHome <folder>        Sahi installation folder
-         -version                  Version info
+ Generic Sakuli test starter.
+ 2016 - The Sakuli team / Philip Griesbacher.
+ http://www.sakuli.org
+ https://github.com/ConSol/sakuli
+ Usage:   sakuli[.exe] COMMAND [OPTIONS]
+          sakuli -help
+          sakuli -version
+          sakuli -run <sakuli suite> [OPTIONS]
+          sakuli -encrypt <secret> [OPTIONS]
+ Commands:
+          run
+          encrypt
+ Options:
+          -loop <minutes>           Loop this suite, wait n seconds between
+                                    executions, 0 means no loops (default: 0)
+          -javaHome <folder>        Java bin dir (overrides PATH)
+          -preHooks <programpath>   A programm which will be executed before
+                                    sakuli (Can be added multiple times)
+          -postHooks  <programpath> A programm which will be executed after
+                                    sakuli (Can be added multiple times)
+          -D <JVM option>           JVM option to set a property on runtime,
+                                    overrides the 'sakuli.properties'
+          -browser <browser>        Browser for the test execution (default: Firefox)
+          -interface <interface>    Network interface used for encryption
+          -sahiHome <folder>        Sahi installation folder
+          -version                  Version info
  ```
 * Options:
     * loop

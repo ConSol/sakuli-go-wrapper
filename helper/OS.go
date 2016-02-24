@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"github.com/kardianos/osext"
 )
 
 //IsRunningOnWindows returns true if the program is running on Windows
@@ -45,11 +46,13 @@ func GetSahiHome() string {
 		sakuliHome = os.Getenv("SAKULI_HOME")
 		if sakuliHome == "" {
 			var err error
-			sakuliHome, err = filepath.Abs(filepath.Join(filepath.Dir(os.Args[0]), ".."))
+			var execFolder string
+			execFolder, err = osext.ExecutableFolder()
+			sakuliHome, err = filepath.Abs(filepath.Join(execFolder, ".."))
 			if err != nil {
 				panic(err)
 			}
-			fmt.Fprintln(os.Stderr, "=========== SAKULI_HOME is empty using binary folder ===========")
+			fmt.Fprintln(os.Stderr, "=========== SAKULI_HOME is empty using binary folder ===========\n" + sakuliHome + "\n================================================================")
 		}
 	}
 	return sakuliHome

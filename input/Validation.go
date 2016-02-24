@@ -10,10 +10,12 @@ import (
 
 //TestRun makes validation tests on the run parameter
 func TestRun(suite string) {
-	if suite == "" {
-		ExitWithHelp("\nrun param is empty")
-	} else if !helper.DoesFileExist(suite) {
-		ExitWithHelp(fmt.Sprintf("\nrun parameter folder [%s] does not exitst\n", suite))
+	if suite != "" {
+		if !helper.DoesFileExist(suite) {
+			Exit(fmt.Sprintf("\nrun parameter folder [%s] does not exitst\n", suite))
+		}
+	}else {
+		Exit("\nrun param is empty")
 	}
 }
 

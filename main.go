@@ -35,12 +35,12 @@ https://github.com/ConSol/sakuli
 Usage:   sakuli[.exe] COMMAND ARGUMENT [OPTIONS]
          sakuli -help
          sakuli -version
-         sakuli -run <sakuli suite path> [OPTIONS]
-         sakuli -encrypt <secret> [OPTIONS]
+         sakuli run <sakuli suite path> [OPTIONS]
+         sakuli encrypt <secret> [OPTIONS]
 
 Commands:
-         run <sakuli suite path>
-         encrypt <secret>
+         run 		<sakuli suite path>
+         encrypt 	<secret>
 
 Options:
          -loop		<seconds>	Loop this suite, wait n seconds between
@@ -84,7 +84,7 @@ Options:
 		if version {
 			input.PrintVersion()
 		}
-		input.ExitWithHelp("")
+		input.ExitWithHelp("\nOnly COMMAND + ARGUMENT + OPTIONS is allowed given: " + fmt.Sprint(os.Args))
 	}
 
 	sakuliProperties := map[string]string{"sakuli_home": helper.GetSahiHome()}

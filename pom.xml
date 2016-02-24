@@ -70,20 +70,66 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>download-osext-sources</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <arguments>
+                                <argument>go</argument>
+                                <argument>get</argument>
+                                <argument>github.com/kardianos/osext</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>create-linux-binary</id>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <phase>compile</phase>
                         <configuration>
-                            <executable>make</executable>
-                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-o</argument>
+                                <argument>${project.build.outputDirectory}/sakuli</argument>
+                                <argument>github.com/ConSol/${project.artifactId}</argument>
+                            </arguments>
                             <environmentVariables>
-                                <PATH>$PATH:$GOROOT/bin</PATH>
+                                <GOOS>linux</GOOS>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-windows-binary</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-o</argument>
+                                <argument>${project.build.outputDirectory}/sakuli.exe</argument>
+                                <argument>github.com/ConSol/${project.artifactId}</argument>
+                            </arguments>
+                            <environmentVariables>
+                                <GOOS>windows</GOOS>
                             </environmentVariables>
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <executable>${GOROOT}/bin/go</executable>
+                    <workingDirectory>${project.basedir}</workingDirectory>
+                    <systemProperties>
+                        <systemProperty>
+                            <key>GOARCH</key>
+                            <value>386</value>
+                        </systemProperty>
+                    </systemProperties>
+                </configuration>
             </plugin>
 
             <plugin>

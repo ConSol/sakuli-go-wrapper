@@ -77,7 +77,6 @@
                         <phase>compile</phase>
                         <configuration>
                             <arguments>
-                                <argument>go</argument>
                                 <argument>get</argument>
                                 <argument>github.com/kardianos/osext</argument>
                             </arguments>

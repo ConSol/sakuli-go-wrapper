@@ -76,46 +76,11 @@
                         </goals>
                         <phase>compile</phase>
                         <configuration>
-                            <arguments>
-                                <argument>build</argument>
-                                <argument>-o</argument>
-                                <argument>${project.build.outputDirectory}/sakuli</argument>
-                                <argument>github.com/ConSol/${project.artifactId}</argument>
-                            </arguments>
-                            <environmentVariables>
-                                <GOOS>linux</GOOS>
-                            </environmentVariables>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>create-windows-binary</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <arguments>
-                                <argument>build</argument>
-                                <argument>-o</argument>
-                                <argument>${project.build.outputDirectory}/sakuli.exe</argument>
-                                <argument>github.com/ConSol/${project.artifactId}</argument>
-                            </arguments>
-                            <environmentVariables>
-                                <GOOS>windows</GOOS>
-                            </environmentVariables>
+                            <executable>make</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <executable>${GOROOT}/bin/go</executable>
-                    <workingDirectory>${project.basedir}</workingDirectory>
-                    <systemProperties>
-                        <systemProperty>
-                            <key>GOARCH</key>
-                            <value>386</value>
-                        </systemProperty>
-                    </systemProperties>
-                </configuration>
             </plugin>
 
             <plugin>
@@ -127,14 +92,6 @@
                 </configuration>
             </plugin>
 
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-scm-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--&lt;!&ndash; name for release branch &ndash;&gt;-->
-                    <!--<branch>REL_${project.version}</branch>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
         </plugins>
 
 

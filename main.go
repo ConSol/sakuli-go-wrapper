@@ -32,41 +32,41 @@ func main() {
 http://www.sakuli.org
 https://github.com/ConSol/sakuli
 
-Usage:   sakuli[.exe] COMMAND ARGUMENT [OPTIONS]
-         sakuli -help
-         sakuli -version
-         sakuli run <sakuli suite path> [OPTIONS]
-         sakuli encrypt <secret> [OPTIONS]
+Usage: sakuli[.exe] COMMAND ARGUMENT [OPTIONS]
+
+       sakuli -help
+       sakuli -version
+       sakuli run <sakuli suite path> [OPTIONS]
+       sakuli encrypt <secret> [OPTIONS]
 
 Commands:
-         run 		<sakuli suite path>
-         encrypt 	<secret>
+       run 	   <sakuli suite path>
+       encrypt 	   <secret>
 
 Options:
-         -loop		<seconds>	Loop this suite, wait n seconds between
-                                   	executions, 0 means no loops (default: 0)
-         -javaHome 	<folder>       	Java bin dir (overrides PATH)
-         -javaOption	<java option>   JVM option parameter, e.g. '-agentlib:...'
-         -preHook 	<programpath>	A program which will be executed before a
-                                   	suite run (can be added multiple times)
-         -postHook 	<programpath>   A program which will be executed after a
-                                   	suite run (can be added multiple times)
-         -D 		<JVM option>    JVM option to set a property at runtime,
-                                   	overrides file based properties
-         -browser 	<browser>       Browser for the test execution
-                                   	(default: Firefox)
-         -interface 	<interface>     Network interface card name, used by
-                                   	command 'encrypt' as salt
-         -sahiHome 	<folder>        Sahi installation folder
-         -version                  	Version info
-         -help                     	This help text
-
+       -loop	   <seconds>	  Loop this suite, wait n seconds between
+                                  executions, 0 means no loops (default: 0)
+       -javaHome   <folder>       Java bin dir (overrides PATH)
+       -javaOption <java option>  JVM option parameter, e.g. '-agentlib:...'
+       -preHook    <programpath>  A program which will be executed before a
+                                  suite run (can be added multiple times)
+       -postHook   <programpath>  A program which will be executed after a
+                                  suite run (can be added multiple times)
+       -D 	   <JVM option>   JVM option to set a property at runtime,
+                                  overrides file based properties
+       -browser    <browser>      Browser for the test execution
+                                  (default: Firefox)
+       -interface  <interface>    Network interface card name, used by
+                                  command 'encrypt' as salt
+       -sahiHome   <folder>       Sahi installation folder
+       -version                   Version info
+       -help                      This help text
 
 `, time.Now().Year())
 	}
 
 	myFlagSet.IntVar(&loop, "loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")
-	myFlagSet.StringVar(&javaHome, "javahome", "", "Java bin dir (overrides PATH)")
+	myFlagSet.StringVar(&javaHome, "javaHome", "", "Java bin dir (overrides PATH)")
 	myFlagSet.Var(&preHooks, "preHook", "A program which will be executed before a suite run (can be added multiple times)")
 	myFlagSet.Var(&postHooks, "postHook", "A program which will be executed after a suite run (can be added multiple times)")
 
@@ -84,7 +84,7 @@ Options:
 		if version {
 			input.PrintVersion()
 		}
-		input.ExitWithHelp("\nOnly COMMAND + ARGUMENT + OPTIONS is allowed given: " + fmt.Sprint(os.Args))
+		input.ExitWithHelp("\nOnly 'sakuli COMMAND ARGUMENT [OPTIONS]' is allowed, given: " + fmt.Sprint(os.Args))
 	}
 
 	sakuliProperties := map[string]string{"sakuli_home": helper.GetSahiHome()}

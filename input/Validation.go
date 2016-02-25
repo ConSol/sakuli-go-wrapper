@@ -26,9 +26,9 @@ func TestJavaHome(home string) string {
 		return javaExecutable
 	}
 	if helper.IsRunningOnWindows() {
-		javaExecutable = filepath.Join(home, "java.exe")
+		javaExecutable = filepath.Join(home, "bin", "java.exe")
 	} else if helper.IsRunningOnLinux() {
-		javaExecutable = filepath.Join(home, "java")
+		javaExecutable = filepath.Join(home, "bin", "java")
 	} else {
 		panic("Can not detect operatingsystem. Supported are: Windows, Linux")
 	}

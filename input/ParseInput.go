@@ -20,7 +20,7 @@ const (
 func ParseArgs(args []string) (string, string) {
 	length := len(args)
 	if length != 2 {
-		ExitWithHelp("\nOnly COMMAND + ARGUMENT + OPTIONS is allowed given: " + fmt.Sprint(args))
+		ExitWithHelp("\nOnly 'sakuli COMMAND ARGUMENT [OPTIONS]' is allowed, given: " + fmt.Sprint(args))
 	}
 	containsEncrypt, indexEncrypt := helper.Contains(args, EncryptMode)
 	containsRun, indexRun := helper.Contains(args, RunMode)

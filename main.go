@@ -28,7 +28,7 @@ func main() {
 	input.MyFlagSet = myFlagSet
 	myFlagSet.Usage = func() {
 		fmt.Fprintf(os.Stderr, `Generic Sakuli test starter.
-%d - The Sakuli team.
+%d - The Sakuli team <sakuli@consol.de>
 http://www.sakuli.org
 https://github.com/ConSol/sakuli
 
@@ -61,6 +61,29 @@ Options:
        -sahiHome   <folder>       Sahi installation folder
        -version                   Version info
        -help                      This help text
+
+Examples: 
+    * Run the test suite "example_windows": 
+    sakuli run "%SAKULI_HOME%\..\example_test_suites\example_windows"
+    * Run "example_windows" in an infinite loop with 10 seconds pause between: 
+    sakuli run "%SAKULI_HOME%\..\example_test_suites\example_windows" -loop=10
+    * Run "example_windows" with browser "chrome" (browser must be registered): 
+    sakuli run "%SAKULI_HOME%\..\example_test_suites\example_windows" -browser=chrome
+    * Run "example_windows", kill hanging processes before:
+    sakuli run "%SAKULI_HOME%\..\example_test_suites\example_windows" \
+      -preHook='cscript.exe %SAKULI_HOME%\bin\helper\killproc.vbs     \
+      -f %SAKULI_HOME%\bin\helper\procs_to_kill.txt'
+    * Run "exmaple_windows", increase the logging level: 
+    sakuli run "%SAKULI_HOME%\..\example_test_suites\example_windows" \
+      -D log.level.sakuli=DEBUG
+
+    * Encrypt a secret using eth0 as salt NIC: 
+    sakuli encrypt topsecret -interface eth0
+    * Show interfaces available for encryption: 
+    sakuli encrypt topsecret -interface list
+
+    * Show version (use this information when submitting bugs): 
+    sakuli -version
 
 `, time.Now().Year())
 	}

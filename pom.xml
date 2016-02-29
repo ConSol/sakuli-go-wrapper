@@ -22,7 +22,7 @@
 
     <groupId>org.sakuli</groupId>
     <artifactId>sakuli-go-wrapper</artifactId>
-    <version>0.9.3</version>
+    <version>0.9.4-SNAPSHOT</version>
     <properties>
         <github.host>github.com</github.host>
     </properties>
@@ -59,7 +59,7 @@
         <connection>scm:git:git://${github.host}/ConSol/sakuli-go-wrapper.git</connection>
         <developerConnection>scm:git:ssh://git@${github.host}/ConSol/sakuli-go-wrapper.git</developerConnection>
         <url>git://${github.host}/ConSol/sakuli-go-wrapper.git</url>
-        <tag>v0.9.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <build>

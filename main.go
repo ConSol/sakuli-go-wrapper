@@ -64,17 +64,17 @@ Options:
 
 Examples: 
     * Run the test suite "example": 
-    sakuli run "$SAKULI_HOME\..\suites\example"
+    sakuli run "SAKULI_HOME\..\suites\example"
     * Run "example" in an infinite loop with 10 seconds pause between: 
-    sakuli run "$SAKULI_HOME\..\suites\example" -loop=10
+    sakuli run "SAKULI_HOME\..\suites\example" -loop=10
     * Run "example" with browser "chrome" (browser must be registered): 
-    sakuli run "$SAKULI_HOME\..\suites\example" -browser=chrome
+    sakuli run "SAKULI_HOME\..\suites\example" -browser=chrome
     * Run "example", kill hanging processes before:
-    sakuli run "$SAKULI_HOME\..\suites\example" \
-      -preHook='cscript.exe $SAKULI_HOME\bin\helper\killproc.vbs     \
-      -f $SAKULI_HOME\bin\helper\procs_to_kill.txt'
+    sakuli run "SAKULI_HOME\..\suites\example" \
+      -preHook='cscript.exe SAKULI_HOME\bin\helper\killproc.vbs     \
+      -f SAKULI_HOME\bin\helper\procs_to_kill.txt'
     * Run "exmaple_windows", increase the logging level: 
-    sakuli run "$SAKULI_HOME\..\suites\example" -D log.level.sakuli=DEBUG
+    sakuli run "SAKULI_HOME\..\suites\example" -D log.level.sakuli=DEBUG
 
     * Encrypt a secret using eth0 as salt NIC: 
     sakuli encrypt topsecret -interface eth0

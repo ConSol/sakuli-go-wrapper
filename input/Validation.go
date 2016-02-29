@@ -12,7 +12,7 @@ import (
 func TestRun(suite string) {
 	if suite != "" {
 		if !helper.DoesFileExist(suite) {
-			Exit(fmt.Sprintf("\nrun parameter folder [%s] does not exitst\n", suite))
+			Exit(fmt.Sprintf("\nrun parameter folder [%s] does not exist\n", suite))
 		}
 	}else {
 		Exit("\nrun param is empty")

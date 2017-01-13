@@ -1,1 +1,0 @@
-* (SM or TS) usage: example aufrufe hinzufügen

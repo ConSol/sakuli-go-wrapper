@@ -39,7 +39,7 @@ https://github.com/ConSol/sakuli
 
 Usage of sakuli-go-wrapper:
   -D value
-    	JVM option to set a property on runtime, overrides the 'sakuli.properties'
+    	JVM option to set a property on runtime, overwrites the 'sakuli.properties'
   -browser string
     	(optional) browser for the test execution (default: Firefox)
   -encrypt string
@@ -47,7 +47,7 @@ Usage of sakuli-go-wrapper:
   -interface string
     	(optional) network interface used for encryption
   -javahome string
-    	Java bin dir (overrides PATH)
+    	Java bin dir (overwrites PATH)
   -loop int
     	loop this suite, wait n seconds between executions, 0 means no loops (default: 0)
   -postHook value

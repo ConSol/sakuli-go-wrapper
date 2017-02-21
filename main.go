@@ -46,14 +46,14 @@ Commands:
 Options:
        -loop	   <seconds>	  Loop this suite, wait n seconds between
                                   executions, 0 means no loops (default: 0)
-       -javaHome   <folder>       Java bin dir (overrides PATH)
+       -javaHome   <folder>       Java bin dir (overwrites PATH)
        -javaOption <java option>  JVM option parameter, e.g. '-agentlib:...'
        -preHook    <programpath>  A program which will be executed before a
                                   suite run (can be added multiple times)
        -postHook   <programpath>  A program which will be executed after a
                                   suite run (can be added multiple times)
        -D 	   <JVM option>   JVM option to set a property at runtime,
-                                  overrides file based properties
+                                  overwrites file based properties
        -browser    <browser>      Browser for the test execution
                                   (default: Firefox)
        -interface  <interface>    Network interface card name, used by
@@ -88,11 +88,11 @@ Examples:
 	}
 
 	myFlagSet.IntVar(&loop, "loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")
-	myFlagSet.StringVar(&javaHome, "javaHome", "", "Java bin dir (overrides PATH)")
+	myFlagSet.StringVar(&javaHome, "javaHome", "", "Java bin dir (overwrites PATH)")
 	myFlagSet.Var(&preHooks, "preHook", "A program which will be executed before a suite run (can be added multiple times)")
 	myFlagSet.Var(&postHooks, "postHook", "A program which will be executed after a suite run (can be added multiple times)")
 
-	myFlagSet.Var(&javaProperties, "D", "JVM option to set a property at runtime, overrides file based properties")
+	myFlagSet.Var(&javaProperties, "D", "JVM option to set a property at runtime, overwrites file based properties")
 	myFlagSet.Var(&javaOptions, "javaOption", "JVM option parameter, e.g. '-agentlib:...'")
 	myFlagSet.StringVar(&browser, "browser", "", "browser for the test execution (default: Firefox)")
 	myFlagSet.StringVar(&inter, "interface", "", "network interface icaed name, used by command 'encrypt' as salt")

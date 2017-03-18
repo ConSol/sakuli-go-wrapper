@@ -54,5 +54,5 @@ MOZ_DISABLE_OOP_PLUGINS:      %s
 MOZ_DISABLE_AUTO_SAFE_MODE:   %s
 MOZ_DISABLE_SAFE_MODE_KEY:    %s
 `, helper.GetSahiHome(), os.Getenv("MOZ_DISABLE_OOP_PLUGINS"), os.Getenv("MOZ_DISABLE_AUTO_SAFE_MODE"), os.Getenv("MOZ_DISABLE_SAFE_MODE_KEY"))
-	os.Exit(999)
+	os.Exit(0)
 }

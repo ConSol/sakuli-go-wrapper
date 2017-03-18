@@ -22,7 +22,7 @@
 
     <groupId>org.sakuli</groupId>
     <artifactId>sakuli-go-wrapper</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0-SNAPSHOT</version>
     <properties>
         <github.host>github.com</github.host>
     </properties>

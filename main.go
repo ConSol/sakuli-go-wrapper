@@ -19,8 +19,9 @@ func main() {
 	var preHooks input.StringSlice
 	var postHooks input.StringSlice
 	var browser string
-	var inter string
 	var sahiHome string
+	var inter string
+	var masterkey string
 	var version bool
 	var examples bool
 
@@ -40,10 +41,15 @@ Usage: sakuli[.exe] COMMAND ARGUMENT [OPTIONS]
   sakuli -version
   sakuli run       <sakuli suite path> [OPTIONS]
   sakuli encrypt   <secret> [OPTIONS]
+  sakuli create    <object> [OPTIONS]
 
 Commands:
   run              <sakuli suite path>
   encrypt          <secret>
+  create           <object>
+
+Objects:
+  masterkey        Base64 decoded AES 128-bit key (for encryption)
 
 Options:
   -loop            <seconds>           Loop this suite, wait n seconds between
@@ -96,15 +102,21 @@ Options:
 		if examples {
 			input.PrintExampleUsage()
 		}
-		input.ExitWithHelp("\nOnly 'sakuli COMMAND ARGUMENT [OPTIONS]' is allowed, given: " + fmt.Sprint(os.Args))
+		detError := ""
+		if len(os.Args) == 2 {
+			detError += "ARGUMENT is missing specify one: "
+		}
+		input.ExitWithHelp("\n" + detError + "Only 'sakuli COMMAND ARGUMENT [OPTIONS]' is allowed, given: " + fmt.Sprint(os.Args))
 	}
 
 	sakuliProperties := map[string]string{"sakuli_home": helper.GetSahiHome()}
-	typ, argument := input.ParseArgs(append(os.Args[1:3],myFlagSet.Args()...))
+	typ, argument := input.ParseArgs(append(os.Args[1:3], myFlagSet.Args()...))
 	switch typ {
 	case input.RunMode:
 		input.TestRun(argument)
 		sakuliProperties[input.RunMode] = argument
+	case input.CreateMode:
+		sakuliProperties[input.CreateMode] = argument
 	case input.EncryptMode:
 		sakuliProperties[input.EncryptMode] = argument
 	case input.Error:
@@ -119,6 +131,9 @@ Options:
 	}
 	if inter != "" {
 		sakuliProperties["interface"] = inter
+	}
+	if masterkey != "" {
+		sakuliProperties["masterkey"] = masterkey
 	}
 	if sahiHome != "" {
 		sakuliProperties["sahiHome"] = sahiHome

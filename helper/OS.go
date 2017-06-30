@@ -2,11 +2,11 @@ package helper
 
 import (
 	"fmt"
+	"github.com/kardianos/osext"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
-	"github.com/kardianos/osext"
 )
 
 //IsRunningOnWindows returns true if the program is running on Windows

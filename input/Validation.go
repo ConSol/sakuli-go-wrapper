@@ -75,6 +75,14 @@ Run a test suite:
     sakuli.exe run "<your-project-path>\example_windows" -D log.level.sakuli=DEBUG
 
 Encrypt secrets:
+▶ Default mode: Encrypt a secret using  master key from
+  environment var 'SAKULI_ENCRYPTION_KEY':
+    export SAKULI_ENCRYPTION_KEY=Bsqs/IR1jW+eibNrdYvlAQ==
+    sakuli encrypt topsecret
+▶ Encrypt a secret using an provided masterkey:
+    sakuli encrypt topsecret -masterkey Bsqs/IR1jW+eibNrdYvlAQ==
+▶ Create a new random master key masterkey Base64 AES-128 key:
+    sakuli create masterkey
 ▶ Encrypt a secret using an automatic determend NIC as salt:
     sakuli encrypt topsecret -interface auto
 ▶ Encrypt a secret using eth0 as salt NIC:

@@ -3,8 +3,8 @@ package execute
 import (
 	"fmt"
 	"github.com/ConSol/sakuli-go-wrapper/helper"
-	"runtime"
 	"os"
+	"runtime"
 )
 
 //RunHandler runs external program with no parameters
@@ -23,7 +23,7 @@ func RunHandler(executable string) {
 		fmt.Printf("Error while calling: %s\n", executable)
 	}
 	fmt.Printf("Handler [%s] finished with returncode: %d\n", executable, returnCode)
-	if returnCode != 0{
+	if returnCode != 0 {
 		os.Exit(returnCode)
 	}
 }

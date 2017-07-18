@@ -87,6 +87,7 @@ Options:
 	myFlagSet.Var(&javaProperties, "D", "JVM option to set a property at runtime, overwrites file based properties")
 	myFlagSet.Var(&javaOptions, "javaOption", "JVM option parameter, e.g. '-agentlib:...'")
 	myFlagSet.StringVar(&browser, "browser", "", "browser for the test execution (default: Firefox)")
+	myFlagSet.StringVar(&masterkey, "masterkey", "", "AES base64 key used by command 'encrypt'")
 	myFlagSet.StringVar(&inter, "interface", "", "network interface icaed name, used by command 'encrypt' as salt")
 	myFlagSet.StringVar(&sahiHome, "sahi_home", "", "Sahi installation folder")
 	myFlagSet.BoolVar(&examples, "examples", false, "CLI usage examples")

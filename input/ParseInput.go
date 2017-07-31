@@ -50,7 +50,7 @@ var MyFlagSet *flag.FlagSet
 //ExitWithHelp prints the help, the info and exits the program with 999.
 func ExitWithHelp(info string) {
 	MyFlagSet.Usage()
-	fmt.Fprintln(os.Stdout, "====================================================================================")
+	fmt.Fprintln(os.Stdout, "================================================================================")
 	fmt.Fprintln(os.Stderr, info)
 	os.Exit(999)
 }

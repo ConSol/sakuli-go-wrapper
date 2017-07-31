@@ -18,7 +18,7 @@ func RunSakuli(javaExecutable, sakuliJars string, javaOptions, javaProperties, s
 	args = append(args, classpath)
 	args = append(args, "org.sakuli.starter.SakuliStarter")
 	args = append(args, sakuliProperties...)
-	fmt.Println("=========== Calling Sakuli JAR =====================================================")
+	fmt.Println("============================== Calling Sakuli JAR ==============================")
 	fmt.Println("command:", javaExecutable, strings.Join(args, " "))
 	fmt.Println("")
 	returnCode, err := Execute(javaExecutable, args...)
@@ -26,7 +26,7 @@ func RunSakuli(javaExecutable, sakuliJars string, javaOptions, javaProperties, s
 		if err != nil {
 			fmt.Println("Error while calling Sakuli JAR:\n" + err.Error())
 		}
-		fmt.Printf("=========== Sakuli JAR finished with returncode: %d ===============================\n", returnCode)
+		fmt.Printf("=================== Sakuli JAR finished with returncode: %d ====================\n", returnCode)
 	}
 	return returnCode
 }

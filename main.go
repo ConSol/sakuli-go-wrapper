@@ -142,11 +142,11 @@ Options:
 	joinedSakuliProperties := genSakuliPropertiesList(sakuliProperties)
 
 	if len(preHooks) > 0 {
-		fmt.Println("=========== Starting Pre-Hooks ===============================")
+		fmt.Println("=========================== Starting Pre-Hooks =================================")
 		for _, pre := range preHooks {
 			execute.RunHandler(pre)
 		}
-		fmt.Println("=========== Finished Pre-Hooks ===============================")
+		fmt.Println("=========================== Finished Pre-Hooks =================================")
 	}
 
 	sakuliReturnCode := execute.RunSakuli(javaExecutable, sakuliJars, javaOptions, javaProperties, joinedSakuliProperties)
@@ -157,11 +157,11 @@ Options:
 	}
 
 	if len(postHooks) > 0 {
-		fmt.Println("=========== Starting Post-Hooks ===============================")
+		fmt.Println("=========================== Starting Post-Hooks ================================")
 		for _, post := range postHooks {
 			execute.RunHandler(post)
 		}
-		fmt.Println("=========== Finished Post-Hooks ===============================")
+		fmt.Println("=========================== Finished Post-Hooks ================================")
 	}
 	os.Exit(sakuliReturnCode)
 }

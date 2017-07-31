@@ -52,7 +52,7 @@ func GetSahiHome() string {
 			if err != nil {
 				panic(err)
 			}
-			fmt.Fprintln(os.Stderr, "=========== SAKULI_HOME is empty using binary folder ===============================\n" + sakuliHome + "\n====================================================================================")
+			fmt.Fprintln(os.Stderr, "=================== SAKULI_HOME is empty using binary folder ===================\n" + sakuliHome + "\n================================================================================")
 		}
 	}
 	return sakuliHome

@@ -14,7 +14,7 @@ func TestRun(suite string) {
 		if !helper.DoesFileExist(suite) {
 			Exit(fmt.Sprintf("\nrun parameter folder [%s] does not exist\n", suite))
 		}
-	}else {
+	} else {
 		Exit("\nrun param is empty")
 	}
 }
@@ -54,5 +54,45 @@ MOZ_DISABLE_OOP_PLUGINS:      %s
 MOZ_DISABLE_AUTO_SAFE_MODE:   %s
 MOZ_DISABLE_SAFE_MODE_KEY:    %s
 `, helper.GetSahiHome(), os.Getenv("MOZ_DISABLE_OOP_PLUGINS"), os.Getenv("MOZ_DISABLE_AUTO_SAFE_MODE"), os.Getenv("MOZ_DISABLE_SAFE_MODE_KEY"))
+	os.Exit(0)
+}
+
+func PrintExampleUsage() {
+	fmt.Print(`Sakuli CLI Examples:
+
+Usage: sakuli[.exe] COMMAND ARGUMENT [OPTIONS]
+
+Run a test suite:
+▶ Run the test suite "example":
+    sakuli run "<your-project-path>/example"
+▶ Use an infinite loop with 10 seconds pause between:
+    sakuli run "<your-project-path>/example" -loop=10
+▶ Choose browser "chrome" (browser must be registered):
+    sakuli run "<your-project-path>/example" -browser=chrome
+▶ Kill hanging processes in Windoes before:
+    sakuli.exe run "<your-project-path>\example" -preHook='cscript.exe SAKULI_HOME\bin\helper\killproc.vbs -f SAKULI_HOME\bin\helper\procs_to_kill.txt'
+▶ Run "exmaple_windows", increase the logging level:
+    sakuli.exe run "<your-project-path>\example_windows" -D log.level.sakuli=DEBUG
+
+Encrypt secrets:
+▶ Default mode: Encrypt a secret using  master key from
+  environment var 'SAKULI_ENCRYPTION_KEY':
+    export SAKULI_ENCRYPTION_KEY=Bsqs/IR1jW+eibNrdYvlAQ==
+    sakuli encrypt topsecret
+▶ Encrypt a secret using an provided masterkey:
+    sakuli encrypt topsecret -masterkey Bsqs/IR1jW+eibNrdYvlAQ==
+▶ Create a new random master key masterkey Base64 AES-128 key:
+    sakuli create masterkey
+▶ Encrypt a secret using an automatic determend NIC as salt:
+    sakuli encrypt topsecret -interface auto
+▶ Encrypt a secret using eth0 as salt NIC:
+    sakuli encrypt topsecret -interface eth0
+▶ Show interfaces available for encryption:
+    sakuli encrypt topsecret -interface list
+
+Others:
+▶ Show version (use this information when submitting bugs):
+    sakuli -version
+`)
 	os.Exit(0)
 }

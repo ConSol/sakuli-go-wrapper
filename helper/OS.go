@@ -38,10 +38,10 @@ func DoesFileExist(file string) bool {
 
 var sakuliHome = ""
 
-//GetSahiHome returns the sakulihome folder.
+//GetSakuliHome returns the sakulihome folder.
 //First lookup: env: SAKULI_HOME
 //Second: one folder above the binary
-func GetSahiHome() string {
+func GetSakuliHome() string {
 	if sakuliHome == "" {
 		sakuliHome = os.Getenv("SAKULI_HOME")
 		if sakuliHome == "" {
@@ -52,8 +52,18 @@ func GetSahiHome() string {
 			if err != nil {
 				panic(err)
 			}
-			fmt.Fprintln(os.Stderr, "=================== SAKULI_HOME is empty using binary folder ===================\n" + sakuliHome + "\n================================================================================")
+			fmt.Fprintln(os.Stderr, "=================== SAKULI_HOME is empty using binary folder ===================\n"+sakuliHome+"\n================================================================================")
 		}
 	}
 	return sakuliHome
+}
+
+//GetSakuliRoot returns the sakuliroot folder.
+//lookup: env: SAKULI_ROOT
+func GetSakuliRoot() string {
+	var sakuliRoot = os.Getenv("SAKULI_ROOT")
+	if sakuliHome == "" {
+		panic("environment variable 'SAKULI_ROOT' is not defined!")
+	}
+	return sakuliRoot
 }

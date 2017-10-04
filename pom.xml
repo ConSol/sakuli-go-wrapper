@@ -17,225 +17,245 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.sakuli</groupId>
-    <artifactId>sakuli-go-wrapper</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
-    <properties>
-        <github.host>github.com</github.host>
-    </properties>
-    <name>sakuli-go-wrapper</name>
-    <description>maven module for binary starter (written in GO)</description>
+  <groupId>org.sakuli</groupId>
+  <artifactId>sakuli-go-wrapper</artifactId>
+  <version>1.1.0-SNAPSHOT</version>
+  <properties>
+    <github.host>github.com</github.host>
+  </properties>
+  <name>sakuli-go-wrapper</name>
+  <description>maven module for binary starter (written in GO)</description>
 
-    <packaging>jar</packaging>
+  <packaging>jar</packaging>
 
-    <profiles>
-        <profile>
-            <id>jenkins</id>
-            <properties>
-                <github.host>sakuli-go-wrapper.github.com</github.host>
-            </properties>
-        </profile>
-        <!-- profile for uploading the artifacts and zipped files to labs.consol.de/sakuli-->
-        <profile>
-            <id>upload-release</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <!-- profile settings to upload the artifacts to the consol labs server -->
-            <distributionManagement>
-                <repository>
-                    <id>labs-consol-sakuli-repository</id>
-                    <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/repository</url>
-                </repository>
-                <snapshotRepository>
-                    <id>labs-consol-sakuli-repository</id>
-                    <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/snapshots-repository</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-    </profiles>
-
-    <scm>
-        <connection>scm:git:git://${github.host}/ConSol/sakuli-go-wrapper.git</connection>
-        <developerConnection>scm:git:ssh://git@${github.host}/ConSol/sakuli-go-wrapper.git</developerConnection>
-        <url>git://${github.host}/ConSol/sakuli-go-wrapper.git</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>download-osext-sources</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <arguments>
-                                <argument>get</argument>
-                                <argument>github.com/kardianos/osext</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>create-linux-binary</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <arguments>
-                                <argument>build</argument>
-                                <argument>-o</argument>
-                                <argument>${project.build.outputDirectory}/sakuli</argument>
-                                <argument>github.com/ConSol/${project.artifactId}</argument>
-                            </arguments>
-                            <environmentVariables>
-                                <GOOS>linux</GOOS>
-                                <GOARCH>386</GOARCH>
-                            </environmentVariables>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>create-windows-binary</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <arguments>
-                                <argument>build</argument>
-                                <argument>-o</argument>
-                                <argument>${project.build.outputDirectory}/sakuli.exe</argument>
-                                <argument>github.com/ConSol/${project.artifactId}</argument>
-                            </arguments>
-                            <environmentVariables>
-                                <GOOS>windows</GOOS>
-                                <GOARCH>386</GOARCH>
-                            </environmentVariables>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>${GOROOT}/bin/go</executable>
-                    <workingDirectory>${project.basedir}</workingDirectory>
-                </configuration>
-            </plugin>
-
-
-            <plugin>
-                <groupId>external.atlassian.jgitflow</groupId>
-                <artifactId>jgitflow-maven-plugin</artifactId>
-                <configuration>
-                    <flowInitContext>
-                        <!-- default git flow prefixes -->
-                        <masterBranchName>master</masterBranchName>
-                        <developBranchName>dev</developBranchName>
-                        <featureBranchPrefix>feature/</featureBranchPrefix>
-                        <releaseBranchPrefix>release/</releaseBranchPrefix>
-                        <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-                        <!-- non default 'v' prefix -->
-                        <versionTagPrefix>v</versionTagPrefix>
-                    </flowInitContext>
-                    <!--<defaultOriginUrl-->
-                    <pushFeatures>true</pushFeatures>
-                    <pushHotfixes>true</pushHotfixes>
-                    <pushReleases>true</pushReleases>
-                    <updateDependencies>true</updateDependencies>
-                    <scmCommentPrefix>mvn-jgitflow:</scmCommentPrefix>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <enableSshAgent>true</enableSshAgent>
-                    <useReleaseProfile>true</useReleaseProfile>
-                </configuration>
-            </plugin>
-
-        </plugins>
-
-
-        <!-- plugin dependencies -->
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.4.0</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>external.atlassian.jgitflow</groupId>
-                    <artifactId>jgitflow-maven-plugin</artifactId>
-                    <version>1.0-m5.1</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh-external</artifactId>
-                <version>2.3</version>
-            </extension>
-        </extensions>
-    </build>
-
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/ConSol/sakuli/issues/</url>
-    </issueManagement>
-
-    <licenses>
-        <license>
-            <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
-        </license>
-    </licenses>
-
-    <distributionManagement>
-        <!-- local maven repository for normal builds -->
+  <profiles>
+    <profile>
+      <id>jenkins</id>
+      <properties>
+        <github.host>sakuli-go-wrapper.github.com</github.host>
+      </properties>
+    </profile>
+    <!-- profile for uploading the artifacts and zipped files to labs.consol.de/sakuli-->
+    <profile>
+      <id>upload-release</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <!-- profile settings to upload the artifacts to the consol labs server -->
+      <distributionManagement>
         <repository>
-            <id>local-release</id>
-            <url>file:///${user.home}/.m2/repository</url>
+          <id>labs-consol-sakuli-repository</id>
+          <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/repository</url>
         </repository>
         <snapshotRepository>
-            <id>local-snapshots</id>
-            <url>file:///${user.home}/.m2/repository</url>
+          <id>labs-consol-sakuli-repository</id>
+          <url>scpexe://labs.consol.de/home/maven-repository/www/htdocs/snapshots-repository</url>
         </snapshotRepository>
-    </distributionManagement>
+      </distributionManagement>
+    </profile>
+  </profiles>
 
-    <repositories>
-        <!-- ConSol Labs repository -->
-        <repository>
-            <id>labs-consol</id>
-            <name>ConSol* Labs Repository</name>
-            <url>http://labs.consol.de/maven/repository</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>labs-consol-snapshot</id>
-            <name>ConSol* Labs Repository</name>
-            <url>http://labs.consol.de/maven/snapshots-repository</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
+  <scm>
+    <connection>scm:git:git://${github.host}/ConSol/sakuli-go-wrapper.git</connection>
+    <developerConnection>scm:git:ssh://git@${github.host}/ConSol/sakuli-go-wrapper.git</developerConnection>
+    <url>git://${github.host}/ConSol/sakuli-go-wrapper.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>download-osext-sources</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <arguments>
+                <argument>get</argument>
+                <argument>github.com/kardianos/osext</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>create-linux-binary</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <arguments>
+                <argument>build</argument>
+                <argument>-o</argument>
+                <argument>${project.build.outputDirectory}/sakuli</argument>
+                <argument>github.com/ConSol/${project.artifactId}</argument>
+              </arguments>
+              <environmentVariables>
+                <GOOS>linux</GOOS>
+                <GOARCH>386</GOARCH>
+              </environmentVariables>
+            </configuration>
+          </execution>
+          <execution>
+            <id>create-windows-binary</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <arguments>
+                <argument>build</argument>
+                <argument>-o</argument>
+                <argument>${project.build.outputDirectory}/sakuli.exe</argument>
+                <argument>github.com/ConSol/${project.artifactId}</argument>
+              </arguments>
+              <environmentVariables>
+                <GOOS>windows</GOOS>
+                <GOARCH>386</GOARCH>
+              </environmentVariables>
+            </configuration>
+          </execution>
+          <execution>
+            <id>create-mac-binary</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <arguments>
+                <argument>build</argument>
+                <argument>-o</argument>
+                <argument>${project.build.outputDirectory}/sakuli-darwin</argument>
+                <argument>github.com/ConSol/${project.artifactId}</argument>
+              </arguments>
+              <environmentVariables>
+                <GOOS>darwin</GOOS>
+                <GOARCH>386</GOARCH>
+              </environmentVariables>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>${GOROOT}/bin/go</executable>
+          <workingDirectory>${project.basedir}</workingDirectory>
+        </configuration>
+      </plugin>
+
+
+      <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <configuration>
+          <flowInitContext>
+            <!-- default git flow prefixes -->
+            <masterBranchName>master</masterBranchName>
+            <developBranchName>dev</developBranchName>
+            <featureBranchPrefix>feature/</featureBranchPrefix>
+            <releaseBranchPrefix>release/</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+            <!-- non default 'v' prefix -->
+            <versionTagPrefix>v</versionTagPrefix>
+          </flowInitContext>
+          <!--<defaultOriginUrl-->
+          <pushFeatures>true</pushFeatures>
+          <pushHotfixes>true</pushHotfixes>
+          <pushReleases>true</pushReleases>
+          <updateDependencies>true</updateDependencies>
+          <scmCommentPrefix>mvn-jgitflow:</scmCommentPrefix>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <enableSshAgent>true</enableSshAgent>
+          <useReleaseProfile>true</useReleaseProfile>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+
+    <!-- plugin dependencies -->
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.4.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>external.atlassian.jgitflow</groupId>
+          <artifactId>jgitflow-maven-plugin</artifactId>
+          <version>1.0-m5.1</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+        <version>2.3</version>
+      </extension>
+    </extensions>
+  </build>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/ConSol/sakuli/issues/</url>
+  </issueManagement>
+
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+
+  <distributionManagement>
+    <!-- local maven repository for normal builds -->
+    <repository>
+      <id>local-release</id>
+      <url>file:///${user.home}/.m2/repository</url>
+    </repository>
+    <snapshotRepository>
+      <id>local-snapshots</id>
+      <url>file:///${user.home}/.m2/repository</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <repositories>
+    <!-- ConSol Labs repository -->
+    <repository>
+      <id>labs-consol</id>
+      <name>ConSol* Labs Repository</name>
+      <url>http://labs.consol.de/maven/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>labs-consol-snapshot</id>
+      <name>ConSol* Labs Repository</name>
+      <url>http://labs.consol.de/maven/snapshots-repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
 </project>

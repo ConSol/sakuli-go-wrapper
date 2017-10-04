@@ -21,13 +21,15 @@ go build github.com/ConSol/sakuli-go-wrapper
 ```
 
 - Build windows and linux binary
-``bash
+```bash
 make
 ```
 or 
 ```
 mvn install
 ```
+- IntelliJ Settings
+![go settings intellij](.pics/go_config_intellij.png)
 
 ### Usage
 

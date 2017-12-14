@@ -25,7 +25,7 @@ func main() {
 	var version bool
 	var examples bool
 
-	sakuliJars := filepath.Join(helper.GetSahiHome(), "libs", "java")
+	sakuliJars := filepath.Join(helper.GetSakuliHome(), "libs", "java")
 	myFlagSet := flag.NewFlagSet("", flag.ExitOnError)
 	input.MyFlagSet = myFlagSet
 	myFlagSet.Usage = func() {
@@ -110,7 +110,7 @@ Options:
 		input.ExitWithHelp("\n" + detError + "Only 'sakuli COMMAND ARGUMENT [OPTIONS]' is allowed, given: " + fmt.Sprint(os.Args))
 	}
 
-	sakuliProperties := map[string]string{"sakuli_home": helper.GetSahiHome()}
+	sakuliProperties := map[string]string{"sakuli_home": helper.GetSakuliHome()}
 	typ, argument := input.ParseArgs(append(os.Args[1:3], myFlagSet.Args()...))
 	switch typ {
 	case input.RunMode:

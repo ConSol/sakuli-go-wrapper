@@ -22,7 +22,7 @@
 
     <groupId>org.sakuli</groupId>
     <artifactId>sakuli-go-wrapper</artifactId>
-    <version>1.0.4</version>
+    <version>1.1.0</version>
     <properties>
         <github.host>github.com</github.host>
     </properties>
@@ -121,6 +121,25 @@
                             </arguments>
                             <environmentVariables>
                                 <GOOS>windows</GOOS>
+                                <GOARCH>386</GOARCH>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-mac-binary</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-o</argument>
+                                <argument>${project.build.outputDirectory}/sakuli.darwin</argument>
+                                <argument>github.com/ConSol/${project.artifactId}</argument>
+                            </arguments>
+                            <environmentVariables>
+                                <GOOS>darwin</GOOS>
                                 <GOARCH>386</GOARCH>
                             </environmentVariables>
                         </configuration>

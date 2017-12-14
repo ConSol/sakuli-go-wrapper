@@ -16,7 +16,7 @@ func IsRunningOnWindows() bool {
 
 //IsRunningOnLinux returns true if the program is running on Linux
 func IsRunningOnLinux() bool {
-	return runtime.GOOS == "linux"
+	return runtime.GOOS == "linux" || runtime.GOOS == "darwin"
 }
 
 //GenClassPath concatenates the elements with ; on Windows with : on Linux
@@ -26,7 +26,7 @@ func GenClassPath(elements ...string) string {
 	} else if IsRunningOnLinux() {
 		return strings.Join(elements, ":")
 	} else {
-		panic("Can not detect operatingsystem. Supported are: Windows, Linux")
+		panic("Can not detect operatingsystem. Supported are: Windows, Linux, MacOs. Detected is: " + runtime.GOOS)
 	}
 }
 

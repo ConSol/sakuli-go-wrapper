@@ -89,7 +89,7 @@ Options:
 	myFlagSet.StringVar(&browser, "browser", "", "browser for the test execution (default: Firefox)")
 	myFlagSet.StringVar(&masterkey, "masterkey", "", "AES base64 key used by command 'encrypt'")
 	myFlagSet.StringVar(&inter, "interface", "", "network interface icaed name, used by command 'encrypt' as salt")
-	myFlagSet.StringVar(&sahiHome, "sahi_home", "", "Sahi installation folder")
+	myFlagSet.StringVar(&sahiHome, "sahiHome", "", "Sahi installation folder")
 	myFlagSet.BoolVar(&examples, "examples", false, "CLI usage examples")
 	myFlagSet.BoolVar(&version, "version", false, "version info")
 
@@ -110,7 +110,7 @@ Options:
 		input.ExitWithHelp("\n" + detError + "Only 'sakuli COMMAND ARGUMENT [OPTIONS]' is allowed, given: " + fmt.Sprint(os.Args))
 	}
 
-	sakuliProperties := map[string]string{"sakuli_home": helper.GetSakuliHome()}
+	sakuliProperties := map[string]string{"sakuliHome": helper.GetSakuliHome()}
 	typ, argument := input.ParseArgs(append(os.Args[1:3], myFlagSet.Args()...))
 	switch typ {
 	case input.RunMode:

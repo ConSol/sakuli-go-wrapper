@@ -145,7 +145,7 @@ Start Sakuli UI:
 ▶ Change default user and password
     sakuli ui . -D security.default-username=myuser -D security.default-password=mypassword
 ▶ Disable authentication
-    sakuli ui . -D app.authentication.enabled=true
+    sakuli ui . -D app.authentication.enabled=false
 `
 	}
 	return ``

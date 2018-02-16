@@ -26,11 +26,13 @@ func main() {
 	var examples bool
 
 	sakuliJars := filepath.Join(helper.GetSakuliHome(), "libs", "java")
-	sakuliUiJars := filepath.Join(helper.GetSakuliHome(), "libs", "ui", "java")
+	sakuliUiJar := filepath.Join(helper.GetSakuliHome(), "libs", "ui", "java", "sakuli-ui-web.jar")
+	uiInstalled := helper.DoesFileExist(sakuliUiJar)
+
 	myFlagSet := flag.NewFlagSet("", flag.ExitOnError)
 	input.MyFlagSet = myFlagSet
 	myFlagSet.Usage = func() {
-		input.PrintHelp()
+		input.PrintHelp(uiInstalled)
 	}
 
 	myFlagSet.IntVar(&loop, "loop", 0, "loop this suite, wait n seconds between executions, 0 means no loops (default: 0)")
@@ -55,7 +57,7 @@ func main() {
 			input.PrintVersion()
 		}
 		if examples {
-			input.PrintExampleUsage()
+			input.PrintExampleUsage(uiInstalled)
 		}
 		detError := ""
 		if len(os.Args) == 2 {
@@ -71,6 +73,10 @@ func main() {
 		input.TestRun(argument)
 		sakuliProperties[input.RunMode] = argument
 	case input.UiMode:
+		if !uiInstalled {
+			input.ExitWithHelp("\nSakuli UI is NOT INSTALLED!\n" +
+				"Only 'sakuli COMMAND ARGUMENT [OPTIONS]' is allowed, given: " + fmt.Sprint(os.Args))
+		}
 		input.TestUI(argument)
 		sakuliProperties[input.UiMode] = argument
 	case input.CreateMode:
@@ -107,7 +113,7 @@ func main() {
 
 	sakuliReturnCode := 0
 	if _, startUI := sakuliProperties[input.UiMode]; startUI {
-		sakuliReturnCode = execute.RunSakuliUI(javaExecutable, sakuliUiJars, javaOptions, javaProperties, sakuliProperties)
+		sakuliReturnCode = execute.RunSakuliUI(javaExecutable, sakuliUiJar, javaOptions, javaProperties, sakuliProperties)
 	} else {
 		sakuliReturnCode = execute.RunSakuli(javaExecutable, sakuliJars, javaOptions, javaProperties, sakuliProperties)
 		for loop > 0 {

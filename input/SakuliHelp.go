@@ -9,7 +9,9 @@ import (
 	"time"
 )
 
-func PrintHelp() {
+func PrintHelp(uiInstalled bool) {
+	uiTextSmall, uiTextLong := genUiHelpText(uiInstalled)
+
 	fmt.Fprintf(os.Stderr, `Generic Sakuli test starter.
 %d - The Sakuli team <sakuli@consol.de>
 http://www.sakuli.org
@@ -20,15 +22,12 @@ Usage: sakuli[.exe] COMMAND ARGUMENT [OPTIONS]
   sakuli -help
   sakuli -examples
   sakuli -version
-  sakuli run       <sakuli suite path> [OPTIONS]
-  sakuli ui        <root context path> [OPTIONS]
+  sakuli run       <sakuli suite path> [OPTIONS]%s
   sakuli encrypt   <secret> [OPTIONS]
   sakuli create    <object> [OPTIONS]
 
 Commands:
-  run              <sakuli suite path>  runs a Sakuli test suite               
-  ui               <root context path>  starts the Sakuli UI with access to the
-                                        given root path                        
+  run              <sakuli suite path>  runs a Sakuli test suite%s                
   encrypt          <secret>             encrypting a secret                    
   create           <object>             create different objects               
                                                                                
@@ -62,7 +61,18 @@ Options:
   -version                              Version info                           
   -help                                 This help text                         
 
-`, time.Now().Year())
+`, time.Now().Year(), uiTextSmall, uiTextLong)
+}
+
+//if ui is not installed don't show the UI option in the starter
+func genUiHelpText(uiInstalled bool) (string, string) {
+	if uiInstalled {
+		return `
+  sakuli ui        <root context path> [OPTIONS]`, `
+  ui               <root context path>  starts the Sakuli UI with access to the
+                                        given root path`
+	}
+	return "", ""
 }
 
 //PrintVersion prints the sakuli version and env variables.
@@ -84,9 +94,9 @@ MOZ_DISABLE_SAFE_MODE_KEY:    %s
 	os.Exit(0)
 }
 
-//TODO add example for UI
-func PrintExampleUsage() {
-	fmt.Print(`Sakuli CLI Examples:
+//if ui is not installed don't show the UI examples
+func PrintExampleUsage(uiInstalled bool) {
+	fmt.Printf(`Sakuli CLI Examples:
 
 Usage: sakuli[.exe] COMMAND ARGUMENT [OPTIONS]
 
@@ -101,7 +111,7 @@ Run a test suite:
     sakuli.exe run "<your-project-path>\example" -preHook='cscript.exe SAKULI_HOME\bin\helper\killproc.vbs -f SAKULI_HOME\bin\helper\procs_to_kill.txt'
 ▶ Run "exmaple_windows", increase the logging level:
     sakuli.exe run "<your-project-path>\example_windows" -D log.level.sakuli=DEBUG
-
+%s
 Encrypt secrets:
 ▶ Default mode: Encrypt a secret using  master key from
   environment var 'SAKULI_ENCRYPTION_KEY':
@@ -121,6 +131,22 @@ Encrypt secrets:
 Others:
 ▶ Show version (use this information when submitting bugs):
     sakuli -version
-`)
+`, genUiExampleText(uiInstalled))
 	os.Exit(0)
+}
+
+func genUiExampleText(uiInstalled bool) string {
+	if uiInstalled {
+		return `
+Start Sakuli UI:
+(default user: admin, password: sakuli123)
+▶ Start UI at given path as root context path
+    sakuli ui ~/sakuli/example_test_suites
+▶ Change default user and password
+    sakuli ui . -D security.default-username=myuser -D security.default-password=mypassword
+▶ Disable authentication
+    sakuli ui . -D app.authentication.enabled=true
+`
+	}
+	return ``
 }

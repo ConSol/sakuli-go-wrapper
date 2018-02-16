@@ -41,14 +41,13 @@ func genSakuliRunPropertiesList(properties map[string]string) input.StringSlice 
 }
 
 //RunSakuliUI starts the sakuli UI jar with parsed javaProperties
-func RunSakuliUI(javaExecutable string, sakuliJars string, javaOptions input.StringSlice, javaProperties input.StringSlice, sakuliProperties map[string]string) int {
-	jarName := helper.GenClassPath(filepath.Join(sakuliJars, "sakuli-ui-web.jar"))
+func RunSakuliUI(javaExecutable string, sakuliUiJar string, javaOptions input.StringSlice, javaProperties input.StringSlice, sakuliProperties map[string]string) int {
 	javaProperties = appendUiProps(javaProperties, sakuliProperties)
 	args := []string{}
 	args = append(args, javaOptions...)
 	args = append(args, javaProperties...)
 	args = append(args, "-jar")
-	args = append(args, jarName)
+	args = append(args, sakuliUiJar)
 	fmt.Println("============================== Calling Sakuli UI JAR ===========================")
 	fmt.Println("command:", javaExecutable, strings.Join(args, " "))
 	fmt.Println("")

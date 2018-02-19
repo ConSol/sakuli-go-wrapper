@@ -139,7 +139,7 @@ func genUiExampleText(uiInstalled bool) string {
 	if uiInstalled {
 		return `
 Start Sakuli UI:
-(default user: admin, password: sakuli123)
+(default user: admin, password: sakuli)
 ▶ Start UI at given path as root context path
     sakuli ui ~/sakuli/example_test_suites
 ▶ Change default user and password

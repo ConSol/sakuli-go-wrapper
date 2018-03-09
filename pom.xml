@@ -162,7 +162,8 @@
                     <pushRemote>true</pushRemote>
                     <postReleaseGoals>deploy</postReleaseGoals>
                     <postHotfixGoals>deploy</postHotfixGoals>
-                    <argLine>-DperformRelease=true</argLine>
+                    <!--load maven settings.xml for sub-processes of maven-->
+                    <argLine>-DperformRelease=true -s ${settings.localRepository}</argLine>
                     <gitFlowConfig>
                         <!-- default git flow prefixes -->
                         <productionBranch>master</productionBranch>

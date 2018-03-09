@@ -160,9 +160,7 @@
                     <keepBranch>false</keepBranch>
                     <fetchRemote>true</fetchRemote>
                     <pushRemote>true</pushRemote>
-                    <preReleaseGoals>verify</preReleaseGoals>
                     <postReleaseGoals>deploy</postReleaseGoals>
-                    <preHotfixGoals>verify</preHotfixGoals>
                     <postHotfixGoals>deploy</postHotfixGoals>
                     <gitFlowConfig>
                         <!-- default git flow prefixes -->

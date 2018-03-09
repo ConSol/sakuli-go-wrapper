@@ -8,38 +8,51 @@ import (
 )
 
 const (
-	//EncryptMode is used to encrypt a password
-	EncryptMode = "encrypt"
 	//RunMode is used for executing a test
 	RunMode = "run"
+	//UiMode is used to start sakuli UI jar
+	UiMode = "ui"
+	//EncryptMode is used to encrypt a password
+	EncryptMode = "encrypt"
 	//CreateMode is used for creating new objects like a masterkey
 	CreateMode = "create"
 	//Error this should never happen
 	Error = "should never happen"
+
+	//OPTION values
+	//key for the sakuli home value
+	OptSakuliHome = "sakuliHome"
+	OptSahiHome   = "sahiHome"
+	OptBrowser    = "browser"
+	OptInterface  = "interface"
+	OptMasterkey  = "masterkey"
 )
 
 //ParseArgs parses the COMMAND and its options
 func ParseArgs(args []string) (string, string) {
 	length := len(args)
 
-	containsEncrypt, indexEncrypt := helper.Contains(args, EncryptMode)
 	containsRun, indexRun := helper.Contains(args, RunMode)
+	containsUi, indexUi := helper.Contains(args, UiMode)
+	containsEncrypt, indexEncrypt := helper.Contains(args, EncryptMode)
 	containsCreate, indexCreate := helper.Contains(args, CreateMode)
 
 	detError := ""
-	if !containsEncrypt && !containsRun && !containsCreate {
+	if !containsRun && !containsUi && !containsEncrypt && !containsCreate {
 		detError += "Incorrect COMMAND, please use a valid one: "
 	}
 	if len(detError) > 0 || length != 2 {
 		ExitWithHelp("\n" + detError + "Only 'sakuli COMMAND ARGUMENT [OPTIONS]' is allowed, given: " + fmt.Sprint(args))
 	}
 
-	if containsEncrypt {
-		return EncryptMode, args[(indexEncrypt + 1) % length]
-	} else if containsRun {
-		return RunMode, args[(indexRun + 1) % length]
+	if containsRun {
+		return RunMode, args[(indexRun+1)%length]
+	} else if containsUi {
+		return UiMode, args[(indexUi+1)%length]
+	} else if containsEncrypt {
+		return EncryptMode, args[(indexEncrypt+1)%length]
 	} else if containsCreate {
-		return CreateMode, args[(indexCreate + 1) % length]
+		return CreateMode, args[(indexCreate+1)%length]
 	}
 	return Error, Error
 }

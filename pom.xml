@@ -25,6 +25,7 @@
     <version>1.2.0-SNAPSHOT</version>
     <properties>
         <github.host>github.com</github.host>
+        <maven.settings.file>${settings.localRepository}</maven.settings.file>
     </properties>
     <name>sakuli-go-wrapper</name>
     <description>maven module for binary starter (written in GO)</description>
@@ -36,6 +37,7 @@
             <id>jenkins</id>
             <properties>
                 <github.host>sakuli-go-wrapper.github.com</github.host>
+                <maven.settings.file>${user.home}/mvn_settings/sakuli-settings.xml</maven.settings.file>
             </properties>
         </profile>
         <!-- profile for uploading the artifacts and zipped files to labs.consol.de/sakuli-->
@@ -163,7 +165,7 @@
                     <postReleaseGoals>deploy</postReleaseGoals>
                     <postHotfixGoals>deploy</postHotfixGoals>
                     <!--load maven settings.xml for sub-processes of maven-->
-                    <argLine>-DperformRelease=true -s ${settings.localRepository}</argLine>
+                    <argLine>-DperformRelease=true -s ${maven.settings.file}</argLine>
                     <gitFlowConfig>
                         <!-- default git flow prefixes -->
                         <productionBranch>master</productionBranch>

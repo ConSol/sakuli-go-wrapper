@@ -162,6 +162,7 @@
                     <pushRemote>true</pushRemote>
                     <postReleaseGoals>deploy</postReleaseGoals>
                     <postHotfixGoals>deploy</postHotfixGoals>
+                    <argLine>-DperformRelease=true</argLine>
                     <gitFlowConfig>
                         <!-- default git flow prefixes -->
                         <productionBranch>master</productionBranch>

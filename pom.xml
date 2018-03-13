@@ -26,7 +26,7 @@
     <version>1.3.0-SNAPSHOT</version>
     <properties>
         <github.host>github.com</github.host>
-        <maven.settings.file>${settings.localRepository}</maven.settings.file>
+        <maven.settings.hook/>
         <performRelease>false</performRelease>
     </properties>
     <name>sakuli-go-wrapper</name>
@@ -39,7 +39,7 @@
             <id>jenkins</id>
             <properties>
                 <github.host>sakuli-go-wrapper.github.com</github.host>
-                <maven.settings.file>${user.home}/mvn_settings/sakuli-settings.xml</maven.settings.file>
+                <maven.settings.hook>-s ${user.home}/mvn_settings/sakuli-settings.xml</maven.settings.hook>
                 <performRelease>true</performRelease>
             </properties>
         </profile>
@@ -168,7 +168,7 @@
                     <postReleaseGoals>deploy</postReleaseGoals>
                     <postHotfixGoals>deploy</postHotfixGoals>
                     <!--load maven settings.xml for sub-processes of maven-->
-                    <argLine>-DperformRelease=${performRelease} -s ${maven.settings.file}</argLine>
+                    <argLine>-DperformRelease=${performRelease} ${maven.settings.hook}</argLine>
                     <gitFlowConfig>
                         <!-- default git flow prefixes -->
                         <productionBranch>master</productionBranch>

@@ -23,10 +23,10 @@
 
     <groupId>org.sakuli</groupId>
     <artifactId>sakuli-go-wrapper</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <properties>
         <github.host>github.com</github.host>
-        <maven.settings.file>${settings.localRepository}</maven.settings.file>
+        <maven.settings.hook/>
         <performRelease>false</performRelease>
     </properties>
     <name>sakuli-go-wrapper</name>
@@ -39,7 +39,7 @@
             <id>jenkins</id>
             <properties>
                 <github.host>sakuli-go-wrapper.github.com</github.host>
-                <maven.settings.file>${user.home}/mvn_settings/sakuli-settings.xml</maven.settings.file>
+                <maven.settings.hook>-s ${user.home}/mvn_settings/sakuli-settings.xml</maven.settings.hook>
                 <performRelease>true</performRelease>
             </properties>
         </profile>
@@ -168,7 +168,7 @@
                     <postReleaseGoals>deploy</postReleaseGoals>
                     <postHotfixGoals>deploy</postHotfixGoals>
                     <!--load maven settings.xml for sub-processes of maven-->
-                    <argLine>-DperformRelease=${performRelease} -s ${maven.settings.file}</argLine>
+                    <argLine>-DperformRelease=${performRelease} ${maven.settings.hook}</argLine>
                     <gitFlowConfig>
                         <!-- default git flow prefixes -->
                         <productionBranch>master</productionBranch>
@@ -209,9 +209,9 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>external.atlassian.jgitflow</groupId>
-                    <artifactId>jgitflow-maven-plugin</artifactId>
-                    <version>1.0-m5.1</version>
+                    <groupId>com.amashchenko.maven.plugin</groupId>
+                    <artifactId>gitflow-maven-plugin</artifactId>
+                    <version>1.9.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
